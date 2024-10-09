@@ -19,9 +19,10 @@ const Home: React.FC = () => {
   const [currentStation, setCurrentStation] = useState<Station | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filteredFavorites, setFilteredFavorites] = useState<Station[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Estado para controlar a sidebar
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const itemsPerPage = 10;
   const totalStations = 100000;
 
@@ -48,6 +49,14 @@ const Home: React.FC = () => {
   useEffect(() => {
     saveToLocalStorage("favorites", favorites);
   }, [favorites]);
+
+  useEffect(() => {
+    // Filtra os favoritos com base no termo de busca
+    const filtered = favorites.filter((fav) =>
+      fav.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredFavorites(filtered);
+  }, [searchTerm, favorites]);
 
   const toggleFavorite = (station: Station) => {
     const isFavorite = favorites.some(
@@ -119,7 +128,7 @@ const Home: React.FC = () => {
           handlePreviousPage={handlePreviousPage}
           currentPage={currentPage}
         />
-        
+
         {sidebarOpen && (
           <button
             className="absolute top-4 right-4 sm:hidden p-4 z-50"
@@ -132,7 +141,7 @@ const Home: React.FC = () => {
 
       {/* Seção de Favoritos */}
       <div
-        className={`flex-grow bg-gray-900 text-white p-6 ${
+        className={`flex-grow bg-gray-900 text-white p-6 h-screen ${
           sidebarOpen ? "mt-12" : ""
         }`}
       >
@@ -160,10 +169,10 @@ const Home: React.FC = () => {
           />
         </div>
         <div className="flex flex-col space-y-3 mt-5">
-          {favorites.length === 0 ? (
+          {filteredFavorites.length === 0 ? (
             <p>Nenhuma rádio adicionada ainda.</p>
           ) : (
-            favorites.map((fav) => (
+            filteredFavorites.map((fav) => (
               <div
                 key={fav.stationuuid}
                 className="flex justify-between items-center bg-gray-700 rounded-lg p-4"
