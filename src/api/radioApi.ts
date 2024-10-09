@@ -1,10 +1,9 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'https://de1.api.radio-browser.info/json';
+import config from '../config/config';
 
 export const fetchStations = async (limit: number = 10, offset: number = 0) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/stations`, {
+    const response = await axios.get(`${config.API_URL_STATIONS}/stations`, {
       params: {
         limit,
         offset

@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           }`}
         >
           <ArrowLeft size={24} />
-          <span className="ml-2">Previous</span>
+          <span className="ml-2">Próximo</span>
         </button>
 
         <button
@@ -127,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               : ""
           }`}
         >
-          <span className="mr-2">Next</span>
+          <span className="mr-2">Anterior</span>
           <ArrowRight size={24} />
         </button>
       </div>
